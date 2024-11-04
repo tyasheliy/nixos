@@ -51,7 +51,7 @@
   users.users.tyasheliy = {
     isNormalUser = true;
     description = "tyasheliy";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel" "docker"];
     shell = pkgs.zsh;
     useDefaultShell = true;
   };
@@ -69,6 +69,15 @@
      vim 
      home-manager
   ];
+
+  virtualisation.docker = {
+	enable = true;
+	rootless = {
+		enable = true;
+		setSockertVariable = true;
+	};
+  };
+
 
   services.xserver = {
 	enable = true;

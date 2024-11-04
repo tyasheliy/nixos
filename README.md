@@ -2,7 +2,7 @@
 
 ### Installation
 
-1. Put generated ``hardware-configuration.nix`` in root of this repo.
+1. Replace ``hardware-configuration.nix`` with yours generated.
 2. ```
    nixos-rebuild switch --flake .
    home-manager switch --flake .
