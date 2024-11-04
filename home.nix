@@ -124,6 +124,11 @@
 	enable = true;
 	userName = "tyasheliy";
 	userEmail = "egorgerasimov@tuta.io";
+	extraConfig = {
+		push = {
+			autoSetupRemote = true;
+		};
+	};
   };
 
   # Home Manager can also manage your environment variables through
