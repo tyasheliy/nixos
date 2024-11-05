@@ -68,13 +68,14 @@
      firefox
      vim 
      home-manager
+     unzip
   ];
 
   virtualisation.docker = {
 	enable = true;
 	rootless = {
 		enable = true;
-		setSockertVariable = true;
+		setSocketVariable = true;
 	};
   };
 
