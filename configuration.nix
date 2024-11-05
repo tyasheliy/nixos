@@ -69,6 +69,7 @@
      vim 
      home-manager
      unzip
+     gnumake
   ];
 
   virtualisation.docker = {
@@ -82,13 +83,12 @@
 
   services.xserver = {
 	enable = true;
+	displayManager = {
+		startx.enable = true;
+  	};
 	xkb = {
 		layout = "us,ru";
 		options = "grp:caps_switch";
-	};
-	displayManager = {
-		defaultSession = "null";
-		startx.enable = true;
 	};
 	windowManager = {
 		bspwm.enable = true;

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -17,11 +17,12 @@
 
   home.packages = with pkgs; [
       htop
-      neofetch
       nekoray
       (nerdfonts.override { fonts = ["JetBrainsMono"]; })
       pinentry-curses
       go
+      python3
+      inputs.nixvim.packages.${system}.default
   ];
 
   programs.alacritty.enable = true;
@@ -150,9 +151,9 @@
   #
   #  /etc/profiles/per-user/tyasheliy/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-     EDITOR = "vim";
-  };
+  #home.sessionVariables = {
+  #   EDITOR = "vim";
+  #};
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

@@ -8,6 +8,8 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixvim.url = "github:tyasheliy/nixvim";
   };
 
   outputs = inputs@{ nixpkgs, home-manager, ... }:
@@ -24,8 +26,9 @@
     		};
 
 		homeConfigurations.tyasheliy = home-manager.lib.homeManagerConfiguration {
-		  pkgs = nixpkgs.legacyPackages.${system};
-		  modules = [ ./home.nix ];
+			pkgs = nixpkgs.legacyPackages.${system};
+			modules = [ ./home.nix ];
+			extraSpecialArgs = { inherit inputs; };
 		};
 	};
 }
