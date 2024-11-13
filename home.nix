@@ -1,6 +1,7 @@
-{ config, pkgs, inputs, ... }:
-
-{
+{ config, pkgs, inputs, system, ... }: 
+let
+	neovim = (inputs.neovim-flake.packages.${system}.default);
+in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "tyasheliy";
@@ -19,10 +20,10 @@
       htop
       nekoray
       (nerdfonts.override { fonts = ["JetBrainsMono"]; })
+      neovim
       pinentry-curses
       go
       python3
-      inputs.nixvim.packages.${system}.default
   ];
 
   programs.alacritty.enable = true;
@@ -30,6 +31,16 @@
   programs.zsh = {
 	enable = true;
 	profileExtra = "startx";
+  };
+
+  home = {
+  	shellAliases = {
+  	      vi = "nvim";
+  	};
+
+  	sessionVariables = {
+  	   EDITOR = "nvim";
+  	};
   };
 
   xsession = {
@@ -47,6 +58,7 @@
   services.sxhkd = {
 	enable = true;
 	keybindings = {
+		"alt + @space" = "rofi -show drun";
 		"alt + Return" = "alacritty";
 		"ctrl + alt + Return" = "firefox --browser";
 		"alt + q" = "bspc node --kill";
@@ -101,6 +113,10 @@
 	};
   };
 
+  programs.rofi = {
+		enable = true;
+  };
+
   home.file = {
 	".xinitrc".text = "sxhkd & exec bspwm";
   };
@@ -151,9 +167,6 @@
   #
   #  /etc/profiles/per-user/tyasheliy/etc/profile.d/hm-session-vars.sh
   #
-  #home.sessionVariables = {
-  #   EDITOR = "vim";
-  #};
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

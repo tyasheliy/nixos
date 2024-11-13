@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim.url = "github:tyasheliy/nixvim";
+    neovim-flake.url = "github:tyasheliy/neovim-flake";
   };
 
   outputs = inputs@{ nixpkgs, home-manager, ... }:
@@ -28,7 +28,10 @@
 		homeConfigurations.tyasheliy = home-manager.lib.homeManagerConfiguration {
 			pkgs = nixpkgs.legacyPackages.${system};
 			modules = [ ./home.nix ];
-			extraSpecialArgs = { inherit inputs; };
+			extraSpecialArgs = { 
+				inherit inputs; 
+				inherit system;
+			};
 		};
 	};
 }
