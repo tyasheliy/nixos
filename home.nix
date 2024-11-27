@@ -2,8 +2,6 @@
 let
 	neovim = (inputs.neovim-flake.packages.${system}.default);
 in {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "tyasheliy";
   home.homeDirectory = "/home/tyasheliy";
 
@@ -18,12 +16,12 @@ in {
 
   home.packages = with pkgs; [
       htop
-      nekoray
       (nerdfonts.override { fonts = ["JetBrainsMono"]; })
       neovim
       pinentry-curses
       go
       python3
+	  telegram-desktop
   ];
 
   programs.alacritty.enable = true;
@@ -36,6 +34,7 @@ in {
   home = {
   	shellAliases = {
   	      vi = "nvim";
+		  docker = "sudo docker";
   	};
 
   	sessionVariables = {
@@ -55,6 +54,16 @@ in {
 	};
   };
 
+  # place phpstorm flake and build it in /home/tyasheliy/phpstorm-flake.
+  xdg.desktopEntries = {
+  	phpstorm = {
+		name = "Phpstorm";
+		genericName = "IDE";
+		exec = "/home/tyasheliy/phpstorm-flake/result/bin/phpstorm";
+		terminal = false;
+	};
+  };
+
   services.sxhkd = {
 	enable = true;
 	keybindings = {
@@ -67,6 +76,7 @@ in {
 		"XF86AudioRaiseVolume" = "pactl set-sink-volume 0 +5%";
 		"XF86AudioLowerVolume" = "pactl set-sink-volume 0 -5%";
 		"XF86AudioMute" = "pactl set-sink-mute 0 toggle";
+		"XF86AudioMicMute" = "amixer set Capture toggle";
 	};
   };
 

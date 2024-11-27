@@ -21,13 +21,19 @@
     		  nixos = nixpkgs.lib.nixosSystem {
     		    modules = [
     		      ./configuration.nix
+				  # import host-specific cfg here.
+				  ./hosts/t480
     		    ];
     		  };
     		};
 
 		homeConfigurations.tyasheliy = home-manager.lib.homeManagerConfiguration {
 			pkgs = nixpkgs.legacyPackages.${system};
-			modules = [ ./home.nix ];
+			modules = [ 
+				./home.nix 
+				# import host-specific cfg here.
+				./hosts/t480/home.nix
+			];
 			extraSpecialArgs = { 
 				inherit inputs; 
 				inherit system;
