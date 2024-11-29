@@ -1,9 +1,8 @@
 # TODOS:
 # 1. file structure
-# 2. configure v2raya with re:filter geoip (and del nekoray)
-# 3. configure zsh
-# 4. bspwm mouse focus
-# 5. more sxhkd bindings (move, focus, resize?)
+# 2. configure zsh
+# 3. bspwm mouse focus
+# 4. more sxhkd bindings (move, focus, resize?)
 
 { config, pkgs, ... }:
 
@@ -73,6 +72,20 @@
     useDefaultShell = true;
   };
 
+  security.sudo = {
+	extraRules = [
+		{
+			groups = ["wheel"];
+			commands = [
+				{
+					command = "${config.system.path}/bin/nekoray";
+					options = ["SETENV" "NOPASSWD"];
+				}
+			];
+		}
+	];
+  };
+
   #services.getty.autologinUser = "tyasheliy";
 
   nixpkgs.config.allowUnfree = true;
@@ -87,6 +100,8 @@
 	 pass
 	 docker-credential-helpers
   ];
+
+  services.resolved.enable = true; # fixes nekoray tun.
 
   virtualisation.docker = {
 	enable = true;

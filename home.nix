@@ -1,10 +1,18 @@
 { config, pkgs, inputs, system, ... }: 
 let
 	neovim = (inputs.neovim-flake.packages.${system}.default);
+
+	homeDir = "/home/tyasheliy";
+	cfgDirname = "nixos";
+
+	importEntries = builtins.readDir ./home;
+	importDirs = builtins.attrNames importEntries;
+	importPaths = builtins.map (dir: ./home + "/${dir}") importDirs;
 in {
   home.username = "tyasheliy";
-  home.homeDirectory = "/home/tyasheliy";
+  home.homeDirectory = homeDir;
 
+  imports = importPaths;
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -35,6 +43,8 @@ in {
   	shellAliases = {
   	      vi = "nvim";
 		  docker = "sudo docker";
+		  nsw = "sudo nixos-rebuild switch --flake ${homeDir}/${cfgDirname}";
+		  hsw = "home-manager switch --flake ${homeDir}/${cfgDirname}";
   	};
 
   	sessionVariables = {
@@ -47,7 +57,10 @@ in {
 	windowManager.bspwm = {
 		enable = true;
 		extraConfigEarly = "bspc monitor -d 1 2 3 4 5 6 7 8 9";
-		extraConfig = "polybar-msg cmd quit\npolybar && disown";
+		extraConfig = ''
+			polybar-msg cmd quit
+			polybar && disown
+		'';
 		settings = {
 			border_width = 2;
 		};
@@ -59,7 +72,13 @@ in {
   	phpstorm = {
 		name = "Phpstorm";
 		genericName = "IDE";
-		exec = "/home/tyasheliy/phpstorm-flake/result/bin/phpstorm";
+		exec = "${homeDir}/phpstorm-flake/result/bin/phpstorm";
+		terminal = false;
+	};
+
+	nekoray = {
+		name = "Nekoray";
+		exec = "sh -c \"sudo -E nekoray\"";
 		terminal = false;
 	};
   };
